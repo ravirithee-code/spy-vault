@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spy Vault - Login</title>
+    <style>
+        body {
+            background: black;
+            color: #00ff00;
+            font-family: monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            text-align: center;
+            border: 2px solid #00ff00;
+            padding: 40px 30px;
+            box-shadow: 0 0 20px #00ff00;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.9);
+        }
+
+        .spy-logo img {
+            width: 100px;
+            border: 2px solid #00ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00ff00;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 220px;
+            padding: 10px;
+            margin: 10px 0;
+            background: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            font-family: monospace;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 12px #00ff00;
+        }
+
+        button {
+            padding: 10px 25px;
+            margin-top: 15px;
+            background: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            font-family: monospace;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 20px #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="spy-logo">
+            <img src="/static/images/spy.png" alt="Spy Logo">
+        </div>
+
+        <h2>Agent Login</h2>
+
+        <form method="POST">
+            <input type="text" name="agent_name" placeholder="Agent Name" required><br>
+            <input type="password" name="agent_password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

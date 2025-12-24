@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spy Vault</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* Center content and forms */
+        body.vault-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            color: #00ff00;
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url("/static/images/bg.png") no-repeat center center fixed;
+            background-size: cover;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 36px;
+            text-align: center;
+        }
+
+        .vault-img {
+            width: 150px;
+            margin: 20px auto;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 15px #00ff00;
+        }
+
+        p {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            border: 2px solid #00ff00;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0,0,0,0.7);
+        }
+
+        input[type="text"], input[type="number"], input[type="file"] {
+            padding: 8px;
+            margin: 5px;
+            background: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            font-family: monospace;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            background: black;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00ff00;
+            color: black;
+            box-shadow: 0 0 15px #00ff00;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body class="vault-page">
+
+    <h2>SPY VAULT</h2>
+    <img src="/static/images/vault.png" class="vault-img">
+
+    <p>Accessing classified data...</p>
+
+    <!-- Display messages from Python -->
+    {% if message %}
+        <div class="message">{{ message }}</div>
+    {% endif %}
+
+    <!-- Caesar Cipher Form -->
+    <form method="POST">
+        <input type="hidden" name="action" value="caesar">
+        Text to encrypt: <input type="text" name="caesar_text" required>
+        Shift: <input type="number" name="shift" value="3" required>
+        <button type="submit">Encrypt Caesar</button>
+    </form>
+
+    <!-- Morse Code Form -->
+    <form method="POST">
+        <input type="hidden" name="action" value="morse">
+        Text to convert: <input type="text" name="morse_text" required>
+        <button type="submit">Encode Morse</button>
+    </form>
+
+    <!-- Secret File Upload -->
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="upload">
+        Upload file: <input type="file" name="secret_file" required>
+        <button type="submit">Upload Secret</button>
+    </form>
+
+    <!-- Chat Form -->
+    <form method="POST">
+        <input type="hidden" name="action" value="chat">
+        Message: <input type="text" name="chat_msg" required>
+        <button type="submit">Send Message</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+
+/* ===== BACKGROUND FOR ALL PAGES ===== */
+body {
+    background: black;
+}
+
+
+/* ===== SPY LOGO ===== */
+.spy-logo img {
+    width: 90px;
+    padding: 12px;
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #00ff00;
+    margin-bottom: 25px;
+}
+
+/* ===== LOGIN BOX ===== */
+.login-box {
+    text-align: center;
+}
+
+/* ===== INPUT FIELDS ===== */
+.login-box input {
+    display: block;
+    width: 230px;
+    margin: 10px auto;
+    padding: 10px;
+
+    background: black;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    font-family: monospace;
+}
+
+.login-box input:focus {
+    outline: none;
+    box-shadow: 0 0 12px #00ff00;
+}
+
+/* ===== BUTTON ===== */
+.login-box button {
+    margin-top: 15px;
+    padding: 10px 25px;
+
+    background: black;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+
+    font-family: monospace;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* 🔥 GLOW ON HOVER 🔥 */
+.login-box button:hover {
+    background: #00ff00;
+    color: black;
+    box-shadow: 0 0 20px #00ff00;
+
+}
+.vault-img {
+    width: 150px;
+    display: block;
+    margin: 20px auto;
+    padding: 12px;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 15px #00ff00;
+}
+
+/* ===== VAULT PAGE BACKGROUND ONLY ===== */
+
+.vault-page {
+    background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url("/static/images/bg.png") no-repeat center center fixed;
+
+    background-size: cover;
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.vault-page {
+    filter: contrast(1.1);
+}
+/* ===== CALCULATOR PAGE BACKGROUND ===== */
+.calc-page {
+     background:
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("/static/images/calc.png") no-repeat center center fixed;
+    background-size: cover;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    color: #00ff00;
+    font-family: monospace;
+}
+
+/* ===== CALCULATOR BOX ===== */
+.calculator {
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #00ff00;
+    padding: 20px;
+    box-shadow: 0 0 20px #00ff00;
+}
+
+/* ===== DISPLAY ===== */
+#display {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    background: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    text-align: right;
+    font-size: 18px;
+}
+
+/* ===== BUTTONS ===== */
+.buttons .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.buttons button {
+    width: 60px;
+    height: 60px;
+    margin: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    background: black;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+}
+
+.buttons button:hover {
+    box-shadow: 0 0 10px #00ff00;
+}
