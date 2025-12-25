@@ -12,7 +12,7 @@
             min-height: 100vh;
             color: #00ff00;
             background:
-                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
                 url("/static/images/bg.png") no-repeat center center fixed;
             background-size: cover;
             font-family: monospace;
@@ -78,7 +78,15 @@
             <tr>
                 <td>{{ file.id }}</td>
                 <td>{{ file.filename }}</td>
-                <td><a href="/static/uploads/{{ file.filename }}" target="_blank">Open</a></td>
+                <td>
+                    <a href="/static/uploads/{{ file.filename }}" target="_blank">
+                        Open
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No files uploaded yet 🕳️</td>
             </tr>
             {% endfor %}
         </table>
@@ -92,10 +100,14 @@
                 <th>ID</th>
                 <th>Message</th>
             </tr>
-            {% for msg in chat %}
+            {% for msg in chats %}
             <tr>
                 <td>{{ msg.id }}</td>
                 <td>{{ msg.message }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">No messages yet 😴</td>
             </tr>
             {% endfor %}
         </table>
