@@ -7,6 +7,10 @@ def get_db_connection():
     conn = sqlite3.connect("spyvault.db")
     conn.row_factory = sqlite3.Row
     return conn
+def get_db_connection():
+    conn = sqlite3.connect("spyvault.db")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # ---------------- CALCULATOR (HOMEPAGE) ----------------
 @app.route("/", methods=["GET", "POST"])
@@ -122,4 +126,5 @@ def vault():
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
