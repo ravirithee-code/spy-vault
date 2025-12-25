@@ -140,7 +140,10 @@ def vault():
                 if file.filename:
                     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
                     file.save(file_path)
-                    c.execute("INSERT INTO files (filename) VALUES (?)", (file.filename,))
+                    c.execute(
+                        "INSERT INTO files (filename) VALUES (?)",
+                        (file.filename,)
+                    )
                     conn.commit()
                     message = f"File '{file.filename}' uploaded successfully!"
 
@@ -148,13 +151,28 @@ def vault():
         elif action == "chat":
             chat_msg = request.form.get("chat_msg", "")
             if chat_msg:
-                c.execute("INSERT INTO chat (message) VALUES (?)", (chat_msg,))
+                c.execute(
+                    "INSERT INTO chat (message) VALUES (?)",
+                    (chat_msg,)
+                )
                 conn.commit()
                 message = f"Message saved: {chat_msg}"
 
+    # 👇 THIS WAS MISSING (SUPER IMPORTANT 🧠)
+    chats = c.execute(
+        "SELECT message FROM chat ORDER BY id DESC"
+    ).fetchall()
+
     conn.close()
-    return render_template("vault.html", message=message)
+
+    return render_template(
+        "vault.html",
+        message=message,
+        chats=chats
+    )
+
 
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
