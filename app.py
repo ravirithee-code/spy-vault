@@ -1,6 +1,12 @@
+import sqlite3
+import os
 from flask import Flask, request, redirect, render_template, render_template_string
 
 app = Flask(__name__)
+def get_db_connection():
+    conn = sqlite3.connect("spyvault.db")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # ---------------- CALCULATOR (HOMEPAGE) ----------------
 @app.route("/", methods=["GET", "POST"])
@@ -43,14 +49,24 @@ def login():
     return render_template("login.html")
 
 # ---------------- VAULT PAGE ----------------
-# ---------------- VAULT PAGE ----------------
+import os
+import sqlite3
+from flask import Flask, request, redirect, render_template, render_template_string, flash
+
+UPLOAD_FOLDER = "static/uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 @app.route("/vault", methods=["GET", "POST"])
 def vault():
     message = ""
 
+    conn = sqlite3.connect("spyvault.db")
+    c = conn.cursor()
+
     if request.method == "POST":
         action = request.form.get("action")
 
+        # ---------------- CAESAR CIPHER ----------------
         if action == "caesar":
             text = request.form.get("caesar_text", "")
             shift = int(request.form.get("shift", 3))
@@ -63,6 +79,7 @@ def vault():
                     encrypted += ch
             message = f"Encrypted Text: {encrypted}"
 
+        # ---------------- MORSE CODE ----------------
         elif action == "morse":
             morse_dict = {
                 'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..',
@@ -80,7 +97,26 @@ def vault():
             encrypted = " ".join(morse_dict.get(ch, '') for ch in text)
             message = f"Morse Code: {encrypted}"
 
-    # Render vault page using Flask template and pass message
+        # ---------------- FILE UPLOAD ----------------
+        elif action == "upload":
+            if 'secret_file' in request.files:
+                file = request.files['secret_file']
+                if file.filename:
+                    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+                    file.save(file_path)
+                    c.execute("INSERT INTO files (filename) VALUES (?)", (file.filename,))
+                    conn.commit()
+                    message = f"File '{file.filename}' uploaded successfully!"
+
+        # ---------------- CHAT ----------------
+        elif action == "chat":
+            chat_msg = request.form.get("chat_msg", "")
+            if chat_msg:
+                c.execute("INSERT INTO chat (message) VALUES (?)", (chat_msg,))
+                conn.commit()
+                message = f"Message saved: {chat_msg}"
+
+    conn.close()
     return render_template("vault.html", message=message)
 
 # ---------------- RUN SERVER ----------------
