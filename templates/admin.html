@@ -1,24 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Spy Admin Panel</title>
+    <title>Spy Vault Admin</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body.admin-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            color: #00ff00;
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url("/static/images/bg.png") no-repeat center center fixed;
+            background-size: cover;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 36px;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        table, th, td {
+            border: 2px solid #00ff00;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            width: 80%;
+        }
+
+        .section h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-<body style="background:black; color:#00ff00; font-family:monospace; padding:20px;">
-    <h2>🕵️‍♂️ Admin Panel</h2>
+<body class="admin-page">
 
-    <h3>Chat Messages:</h3>
-    <ul>
-        {% for chat in chats %}
-            <li>{{ chat['id'] }}: {{ chat['message'] }}</li>
-        {% endfor %}
-    </ul>
+    <h2>SPY VAULT ADMIN PANEL</h2>
 
-    <h3>Uploaded Files:</h3>
-    <ul>
-        {% for file in files %}
-            <li><a href="/uploads/{{ file['filename'] }}" target="_blank" style="color:#00ff00;">{{ file['filename'] }}</a></li>
-        {% endfor %}
-    </ul>
+    <!-- Uploaded Files -->
+    <div class="section">
+        <h3>Uploaded Files</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Filename</th>
+                <th>Download</th>
+            </tr>
+            {% for file in files %}
+            <tr>
+                <td>{{ file.id }}</td>
+                <td>{{ file.filename }}</td>
+                <td><a href="/static/uploads/{{ file.filename }}" target="_blank">Open</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="section">
+        <h3>Chat Messages</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Message</th>
+            </tr>
+            {% for msg in chat %}
+            <tr>
+                <td>{{ msg.id }}</td>
+                <td>{{ msg.message }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
 </body>
 </html>
