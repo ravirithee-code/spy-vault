@@ -1,8 +1,102 @@
+import os
+import sqlite3
+from flask import Flask, request, redirect, render_template, send_from_directory
+
+# ---------------- APP INITIALIZATION ----------------
+app = Flask(__name__)
+
+# ---------------- UPLOAD FOLDER ----------------
+UPLOAD_FOLDER = "static/uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# ---------------- DATABASE FUNCTIONS ----------------
+def get_db_connection():
+    conn = sqlite3.connect("spyvault.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    conn = get_db_connection()
+    c = conn.cursor()
+
+    # Files table
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS files (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT
+        )
+    """)
+
+    # Chat table
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS chat (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            message TEXT
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+# Initialize database
+init_db()
+
+# ---------------- ADMIN PANEL ----------------
+@app.route("/admin")
+def admin():
+    conn = get_db_connection()
+    files = conn.execute("SELECT * FROM files").fetchall()
+    chats = conn.execute("SELECT * FROM chat").fetchall()
+    conn.close()
+    return render_template("admin.html", files=files, chats=chats)
+
+# ---------------- FILE DOWNLOAD ----------------
+@app.route("/uploads/<filename>")
+def download_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+# ---------------- CALCULATOR (HOMEPAGE) ----------------
+@app.route("/", methods=["GET", "POST"])
+def calculator():
+    display = ""
+    if request.method == "POST":
+        btn = request.form["btn"]
+        display = request.form.get("display", "")
+        if btn == "=":
+            if display == "007":
+                return redirect("/login")  # secret spy entry
+            try:
+                display = str(eval(display))
+            except:
+                display = "Error"
+        elif btn == "C":
+            display = ""
+        else:
+            display += btn
+    return render_template("calculator.html", display=display)
+
+# ---------------- LOGIN PAGE ----------------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        agent_name = request.form["agent_name"]
+        agent_password = request.form["agent_password"]
+
+        with open("agents.txt", "r") as file:
+            for line in file:
+                stored_name, stored_pass = line.strip().split(":")
+                if agent_name == stored_name and agent_password == stored_pass:
+                    return redirect("/vault")
+
+        return "<h3>❌ ACCESS DENIED</h3>" + open("login.html").read()
+
+    return render_template("login.html")
+
+# ---------------- VAULT PAGE ----------------
 @app.route("/vault", methods=["GET", "POST"])
 def vault():
     message = ""
-
-    conn = get_db_connection()  # Use the helper function
+    conn = get_db_connection()
     c = conn.cursor()
 
     if request.method == "POST":
@@ -60,3 +154,7 @@ def vault():
 
     conn.close()
     return render_template("vault.html", message=message)
+
+# ---------------- RUN SERVER ----------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
