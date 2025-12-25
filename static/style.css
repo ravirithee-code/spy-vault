@@ -72,7 +72,7 @@ body {
 
 .vault-page {
     background:
-        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
         url("/static/images/bg.png") no-repeat center center fixed;
 
     background-size: cover;
@@ -96,7 +96,7 @@ img {
 /* ===== CALCULATOR PAGE BACKGROUND ===== */
 .calc-page {
      background:
-        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
         url("/static/images/calc.png") no-repeat center center fixed;
     background-size: cover;
     
@@ -111,7 +111,7 @@ img {
 
 /* ===== CALCULATOR BOX ===== */
 .calculator {
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.6);
     border: 2px solid #00ff00;
     padding: 20px;
     box-shadow: 0 0 20px #00ff00;
@@ -150,3 +150,4 @@ img {
 .buttons button:hover {
     box-shadow: 0 0 10px #00ff00;
 }
+
