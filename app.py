@@ -29,6 +29,13 @@ def init_db():
 
     conn.commit()
     conn.close()
+@app.route("/admin")
+def admin():
+    conn = get_db_connection()
+    files = conn.execute("SELECT * FROM files").fetchall()
+    chats = conn.execute("SELECT * FROM chat").fetchall()
+    conn.close()
+    return render_template("admin.html", files=files, chats=chats)
 
 # 👇 THIS LINE IS THE MAGIC SPELL 🪄
 init_db()
@@ -147,6 +154,7 @@ def vault():
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
