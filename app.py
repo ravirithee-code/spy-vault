@@ -156,20 +156,22 @@ def vault():
                     conn.commit()
                     message = f"File '{file.filename}' uploaded successfully!"
 
-        # ---------------- CHAT ----------------
-        elif action == "chat":
-            chat_msg = request.form.get("chat_msg", "")
-            if chat_msg:
-                c.execute("INSERT INTO chat (message) VALUES (?)", (chat_msg,))
-                conn.commit()
-                message = f"Message saved: {chat_msg}"
+       # ---------------- CHAT ----------------
+elif action == "chat":
+    chat_msg = request.form.get("chat_msg", "")
+    if chat_msg:
+        conn = get_db_connection()   # open a new connection
+        c = conn.cursor()
+        c.execute("INSERT INTO chat (message) VALUES (?)", (chat_msg,))
+        conn.commit()
+        conn.close()
+        message = f"Message saved: {chat_msg}"
 
-    conn.close()
-    return render_template("vault.html", message=message)
 
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
