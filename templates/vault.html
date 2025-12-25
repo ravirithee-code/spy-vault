@@ -148,7 +148,12 @@
         Message: <input type="text" name="chat_msg" required>
         <button type="submit">Send Message</button>
     </form>
+    <h3>Chat History</h3>
+{% for chat in chats %}
+    <p>🗨️ {{ chat.message }}</p>
+{% endfor %}
 
 </body>
 </html>
+
 
