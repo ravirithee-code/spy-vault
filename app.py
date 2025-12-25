@@ -3,10 +3,20 @@ import os
 from flask import Flask, request, redirect, render_template, render_template_string
 
 app = Flask(__name__)
-def get_db_connection():
+def init_db():
     conn = sqlite3.connect("spyvault.db")
-    conn.row_factory = sqlite3.Row
-    return conn
+    c = conn.cursor()
+
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS files (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+init_db()
 def get_db_connection():
     conn = sqlite3.connect("spyvault.db")
     conn.row_factory = sqlite3.Row
@@ -126,5 +136,6 @@ def vault():
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
