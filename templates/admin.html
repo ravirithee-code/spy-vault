@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spy Admin Panel</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="background:black; color:#00ff00; font-family:monospace; padding:20px;">
+    <h2>🕵️‍♂️ Admin Panel</h2>
+
+    <h3>Chat Messages:</h3>
+    <ul>
+        {% for chat in chats %}
+            <li>{{ chat['id'] }}: {{ chat['message'] }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Uploaded Files:</h3>
+    <ul>
+        {% for file in files %}
+            <li><a href="/uploads/{{ file['filename'] }}" target="_blank" style="color:#00ff00;">{{ file['filename'] }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
