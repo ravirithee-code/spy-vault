@@ -1,10 +1,16 @@
 import sqlite3
 import os
-from flask import Flask, request, redirect, render_template, render_template_string
+from flask import Flask, request, redirect, render_template
 
 app = Flask(__name__)
-def init_db():
+
+def get_db_connection():
     conn = sqlite3.connect("spyvault.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    conn = get_db_connection()
     c = conn.cursor()
 
     c.execute("""
@@ -14,13 +20,18 @@ def init_db():
         )
     """)
 
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS chat (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            message TEXT
+        )
+    """)
+
     conn.commit()
     conn.close()
+
+# 👇 THIS LINE IS THE MAGIC SPELL 🪄
 init_db()
-def get_db_connection():
-    conn = sqlite3.connect("spyvault.db")
-    conn.row_factory = sqlite3.Row
-    return conn
 
 # ---------------- CALCULATOR (HOMEPAGE) ----------------
 @app.route("/", methods=["GET", "POST"])
@@ -136,6 +147,7 @@ def vault():
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
