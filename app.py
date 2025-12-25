@@ -1,9 +1,10 @@
 import sqlite3
 import os
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, send_from_directory
 
 app = Flask(__name__)
 
+# ---------------- DATABASE FUNCTIONS ----------------
 def get_db_connection():
     conn = sqlite3.connect("spyvault.db")
     conn.row_factory = sqlite3.Row
@@ -13,6 +14,7 @@ def init_db():
     conn = get_db_connection()
     c = conn.cursor()
 
+    # Create files table
     c.execute("""
         CREATE TABLE IF NOT EXISTS files (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,6 +22,7 @@ def init_db():
         )
     """)
 
+    # Create chat table
     c.execute("""
         CREATE TABLE IF NOT EXISTS chat (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,16 +32,29 @@ def init_db():
 
     conn.commit()
     conn.close()
+
+# Initialize database
+init_db()
+
+# ---------------- ADMIN PANEL ----------------
 @app.route("/admin")
 def admin():
     conn = get_db_connection()
+    
+    # Fetch uploaded files
     files = conn.execute("SELECT * FROM files").fetchall()
+    
+    # Fetch chat messages
     chats = conn.execute("SELECT * FROM chat").fetchall()
+    
     conn.close()
+    
     return render_template("admin.html", files=files, chats=chats)
 
-# 👇 THIS LINE IS THE MAGIC SPELL 🪄
-init_db()
+# ---------------- FILE DOWNLOAD ----------------
+@app.route("/uploads/<filename>")
+def download_file(filename):
+    return send_from_directory("static/uploads", filename)
 
 # ---------------- CALCULATOR (HOMEPAGE) ----------------
 @app.route("/", methods=["GET", "POST"])
@@ -154,6 +170,7 @@ def vault():
 # ---------------- RUN SERVER ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
 
 
 
